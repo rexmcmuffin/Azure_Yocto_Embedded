@@ -28,3 +28,31 @@ Si el estado no es running ejecutar este comando
 
 ## Instalacion de Yocto en la VM por medio de xrdp. 
 
+Usar el siguiente comando para poder instalar las dependencias de yocto en ubuntu
+1. sudo apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 python3-subunit zstd liblz4-tool file locales libacl1
+2. sudo locale-gen en_US.UTF-8
+3. git clone git://git.yoctoproject.org/poky
+4. git checkout -t origin/kirkstone -b my-kirkstone
+5. cd poky
+6. mkdir build
+7. source oe-init-build-env build
+8. bitbake core-image-minimal
+Wait .... 
+
+## Configuracion de algunas caracteristicas y archivos de Yocto
+
+1. Abrir el archivo ubicado en build/conf/local.conf y observar los siguientes parametros
+
+MACHINE ?= "<MACHINE>"
+
+DISTRO_FEATURES = "x11 opengl "
+
+IMAGE_CLASSES += "image_types_tegra"
+IMAGE_FSTYPES = "tegraflash"
+
+SSTATE_DIR ?= "/home/${USER}/Yocto/sstate_dir"
+DL_DIR ?= "/home/${USER}/Yocto/downloads"
+
+el apartado de machine se debe de reemplazar por 
+
+![Target Machines](images/targetmachines.png)
