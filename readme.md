@@ -31,8 +31,9 @@ Si el estado no es running ejecutar este comando
 Usar el siguiente comando para poder instalar las dependencias de yocto en ubuntu
 1. sudo apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 python3-subunit zstd liblz4-tool file locales libacl1
 2. sudo locale-gen en_US.UTF-8
-3. git clone git://git.yoctoproject.org/poky
-4. git checkout -t origin/kirkstone -b my-kirkstone
+2.1 export BRANCH="kirkstone"
+3. git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
+4. git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
 5. cd poky
 6. mkdir build
 7. source oe-init-build-env build
@@ -53,6 +54,15 @@ IMAGE_FSTYPES = "tegraflash"
 SSTATE_DIR ?= "/home/${USER}/Yocto/sstate_dir"
 DL_DIR ?= "/home/${USER}/Yocto/downloads"
 
-el apartado de machine se debe de reemplazar por 
+el apartado de "<MACHINE>" se debe de reemplazar por alguna target board de la siguiente tabla:
 
 ![Target Machines](images/targetmachines.png)
+
+Para el archivo llamado bblayers.conf se deberan de agrear los siguientes pats:
+
+BBLAYERS ?= " \         
+  /home/${USER}/yocto-tegra/meta-tegra \                              
+  /home/${USER}/yocto-tegra/poky/meta \       
+  /home/${USER}/yocto-tegra/poky/meta-poky \
+  /home/${USER}/yocto-tegra/poky/meta-yocto-bsp \
+  "
