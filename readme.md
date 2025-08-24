@@ -29,15 +29,14 @@ Si el estado no es running ejecutar este comando
 ## Instalacion de Yocto en la VM por medio de xrdp. 
 
 Usar el siguiente comando para poder instalar las dependencias de yocto en ubuntu
-1. sudo apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 python3-subunit zstd liblz4-tool file locales libacl1
-2. sudo locale-gen en_US.UTF-8
-2.1 export BRANCH="kirkstone"
-3. git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky
-4. git clone -b ${BRANCH} https://github.com/OE4T/meta-tegra.git
-5. cd poky
-6. mkdir build
-7. source oe-init-build-env build
-8. bitbake core-image-minimal
+1. sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm
+2. YOCTO_DIR=/home/$USER/yocto-tegra
+2.1 mkdir $YOCTO_DIR
+3. export BRANCH="dunfell"
+4. cd $YOCTO_DIR
+5. git clone -b ${BRANCH}-l4t-r32.4.3 https://github.com/madisongh/meta-tegra.git
+6. cd $YOCTO_DIR
+7. source poky-${BRANCH}/oe-init-build-env build
 Wait .... 
 
 ## Configuracion de algunas caracteristicas y archivos de Yocto
@@ -46,13 +45,14 @@ Wait ....
 
 MACHINE ?= "<MACHINE>"
 
-DISTRO_FEATURES = "x11 opengl "
-
 IMAGE_CLASSES += "image_types_tegra"
 IMAGE_FSTYPES = "tegraflash"
 
 SSTATE_DIR ?= "/home/${USER}/Yocto/sstate_dir"
 DL_DIR ?= "/home/${USER}/Yocto/downloads"
+
+PREFERRED_VERSION_python3 = "3.6%"
+PREFERRED_VERSION_python3-native = "3.6%"
 
 el apartado de "<MACHINE>" se debe de reemplazar por alguna target board de la siguiente tabla:
 
@@ -60,9 +60,11 @@ el apartado de "<MACHINE>" se debe de reemplazar por alguna target board de la s
 
 Para el archivo llamado bblayers.conf se deberan de agrear los siguientes pats:
 
-BBLAYERS ?= " \         
-  /home/${USER}/yocto-tegra/meta-tegra \                              
-  /home/${USER}/yocto-tegra/poky/meta \       
-  /home/${USER}/yocto-tegra/poky/meta-poky \
-  /home/${USER}/yocto-tegra/poky/meta-yocto-bsp \
+ BBLAYERS ?= " \         
+  /home/${USER}/yocto-tegra/meta-tegra \                                                                                                                                                                                                                                                                                                                                        
+  /home/${USER}/yocto-tegra/poky-dunfell/meta \       
+  /home/${USER}/yocto-tegra/poky-dunfell/meta-poky \                                                                                                                                                                
+  /home/${USER}/yocto-tegra/poky-dunfell/meta-yocto-bsp \                                                                                                                                                                                                                                                                                                    
   "
+
+  bitbake core-image-sato-dev
