@@ -31,12 +31,13 @@ Si el estado no es running ejecutar este comando
 Usar el siguiente comando para poder instalar las dependencias de yocto en ubuntu
 1. sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm
 2. YOCTO_DIR=/home/$USER/yocto-tegra
-2.1 mkdir $YOCTO_DIR
+3. mkdir $YOCTO_DIR
 3. export BRANCH="dunfell"
 4. cd $YOCTO_DIR
-5. git clone -b ${BRANCH}-l4t-r32.4.3 https://github.com/madisongh/meta-tegra.git
-6. cd $YOCTO_DIR
-7. source poky-${BRANCH}/oe-init-build-env build
+5. git clone -b ${BRANCH} git://git.yoctoproject.org/poky.git poky-${BRANCH}
+6. git clone -b ${BRANCH}-l4t-r32.4.3 https://github.com/madisongh/meta-tegra.git
+7. cd $YOCTO_DIR
+8. source poky-${BRANCH}/oe-init-build-env build
 Wait .... 
 
 ## Configuracion de algunas caracteristicas y archivos de Yocto
